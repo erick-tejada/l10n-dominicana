@@ -18,4 +18,4 @@ def migrate(cr, version):
             'l10n_do_sequence_number': False,
         })
 
-    _logger.info("Removed NCF info for: %s", ', '.join(names))
+    _logger.warning("Removed NCF info for: %s", ', '.join(names))
