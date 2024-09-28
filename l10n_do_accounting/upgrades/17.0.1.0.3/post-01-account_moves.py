@@ -6,6 +6,8 @@ _logger = logging.getLogger(__name__)
 
 def migrate(cr, version):
     env = util.env(cr)
+    
+    _logger.warning("Starting NCF Migration -> Removed NCF for Canceled Bills")
 
     canceled_bills = env["account.move"].search([('state','=','cancel'),('move_type','=','in_invoice')])
     names = []
