@@ -7,17 +7,22 @@ _logger = logging.getLogger(__name__)
 def migrate(cr, version):
     env = util.env(cr)
     
-    _logger.warning("Starting NCF Migration -> Removed NCF for Canceled Bills")
-
-    canceled_bills = env["account.move"].search([('state','=','cancel'),('move_type','=','in_invoice')])
-    names = []
-    for bill in canceled_bills:
-        names.append(bill.name)
-        bill.write({
-            'l10n_latam_document_number': '',
-            'l10n_do_fiscal_number': '',
-            'l10n_do_sequence_prefix': '',
-            'l10n_do_sequence_number': False,
-        })
-
-    _logger.warning("Removed NCF info for: %s", ', '.join(names))
+    _logger.warning("------------------------------------------------------------------------------------")
+    _logger.warning("Changing XML References for old Tax Groups")
+    
+    tax_groups = env['account.tax.group'].search([
+        ('module','=','account'),
+        ('name', 'in', ['1_group_tax', '1_group_isr', '1_group_itbis', '1_group_ret'])
+    ])
+    
+    processed_identifiers = []
+    for group in tax_groups:
+        vals = str(group.name).split('_')        
+        if vals[0] == '1':
+            vals.insert(1, 'tax')
+            new_name = '_'.join(vals)
+            group.name = new_name
+            processed_identifiers.append(new_name)
+    
+    _logger.warning("Processed Identifiers: %s" % ', '.join(processed_identifiers))
+    _logger.warning("------------------------------------------------------------------------------------")
