@@ -10,7 +10,7 @@ def migrate(cr, version):
     _logger.warning("------------------------------------------------------------------------------------")
     _logger.warning("Changing XML References for old Tax Groups")
     
-    tax_groups = env['account.tax.group'].search([
+    tax_groups = env['ir.model.data'].search([
         ('module','=','account'),
         ('name', 'in', ['1_group_tax', '1_group_isr', '1_group_itbis', '1_group_ret'])
     ])
