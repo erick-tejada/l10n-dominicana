@@ -149,17 +149,18 @@
     <template id="document_tax_totals">
 
         <t t-set="l10n_do_amounts" t-value="o._get_l10n_do_amounts()"/>
+        <t t-set="tax_totals" t-value="o.tax_totals"/>
+        <t t-set="currency" t-value="o.currency_id"/>
 
         <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
             <tr class="border-black o_subtotal">
                 <td>
                     <strong t-out="subtotal['name']"/>
                 </td>
-
                 <td class="text-end">
-                    <span
-                        t-att-class="oe_subtotal_footer_separator"
-                        t-out="subtotal['formatted_amount']"
+                    <span t-att-class="oe_subtotal_footer_separator"
+                          t-out="subtotal['base_amount_currency]"
+                          t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
                     />
                 </td>
             </tr>
@@ -249,7 +250,7 @@
         </t>
 
         <t t-set="address" position="replace"/>
-        <xpath expr="//h2" position="replace"/>
+        <t t-set="layout_document_title" position="replace"/>
 
         <!-- replace information section and use dominican style -->
         <div id="informations" position="replace">
@@ -319,7 +320,7 @@
         </xpath>
         <xpath expr="//span[@id='line_tax_ids']" position="attributes">
             <attribute name="t-out">
-                ', '.join(map(lambda x: (x.description or x.name), line.tax_ids)) if not ecf_representation else '%s %s' % (o.currency_id.symbol, '{0:,.2f}'.format(line.l10n_do_itbis_amount))
+                ', '.join(map(lambda x: (x.invoice_label or x.name), line.tax_ids)) if not ecf_representation else '%s %s' % (o.currency_id.symbol, '{0:,.2f}'.format(line.l10n_do_itbis_amount))
             </attribute>
         </xpath>
 
