@@ -14,9 +14,6 @@ class AccountMove(models.Model):
         # ya que los métodos SQL posteriores requieren IDs enteros reales
         temp_id_moves = self.filtered(lambda m: not isinstance(m.id, int))
         real_id_moves = self - temp_id_moves
-        
-        if not isinstance(self.id, int):
-            return super()._compute_name()
 
         for move in real_id_moves:
             if move.state == "cancel":
