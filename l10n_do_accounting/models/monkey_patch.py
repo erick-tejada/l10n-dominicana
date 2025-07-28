@@ -8,14 +8,14 @@ class AccountMove(models.Model):
         "posted_before", "state", "journal_id", "date", "move_type", "origin_payment_id"
     )
     def _compute_name(self):
-        self = self.sorted(lambda m: (m.date, m.ref or "", m._origin.id))
-
         # Bypass para IDs temporales (NewId) - No pueden generar secuencias fiscales
         # ya que los métodos SQL posteriores requieren IDs enteros reales
-        temp_id_moves = self.filtered(lambda m: not isinstance(m.id, int))
-        real_id_moves = self - temp_id_moves
+        self = self.filtered(
+            lambda m: isinstance(m.id, int)
+        ).sorted(
+            lambda m: (m.date, m.ref or "", m._origin.id))
 
-        for move in real_id_moves:
+        for move in self:
             if move.state == "cancel":
                 continue
 
@@ -36,10 +36,10 @@ class AccountMove(models.Model):
             if move.date and (not move_has_name or not move._sequence_matches_date()):
                 move._set_next_sequence()
 
-        real_id_moves.filtered(lambda m: not m.name and not move.quick_edit_mode).name = "/"
-        real_id_moves._inverse_name()
+        self.filtered(lambda m: not m.name and not m.quick_edit_mode).name = "/"
+        self._inverse_name()
 
-        for move in real_id_moves.filtered(
+        for move in self.filtered(
             lambda x: x.country_code == "DO"
             and x.l10n_latam_document_type_id
             and not x.l10n_latam_manual_document_number
@@ -48,7 +48,3 @@ class AccountMove(models.Model):
             and not x.l10n_do_fiscal_number
         ):
             move.with_context(is_l10n_do_seq=True)._set_next_sequence()
-        
-        # Bypass para IDs temporales (NewId) - No pueden generar secuencias fiscales
-        if temp_id_moves:
-            temp_id_moves._compute_name()
