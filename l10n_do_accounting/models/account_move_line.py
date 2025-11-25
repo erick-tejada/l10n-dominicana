@@ -38,7 +38,7 @@ class AccountMoveLine(models.Model):
 
     def _get_l10n_do_line_amounts(self):
         group_itbis = self.env.ref("account.%s_tax_group_itbis" % self.company_id.id)
-        group_isr = self.env.ref("account.%s_tax_group_isr" % self.company_id.id) comentados temporalmente
+        group_isr = self.env.ref("account.%s_tax_group_isr" % self.company_id.id) #comentados temporalmente
         # group_itbis = self.env.ref("account.%s_group_itbis" % self.company_id.id)
         # group_isr = self.env.ref("account.%s_group_isr" % self.company_id.id)
 
