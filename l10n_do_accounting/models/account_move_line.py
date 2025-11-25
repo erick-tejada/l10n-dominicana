@@ -22,8 +22,8 @@ class AccountMoveLine(models.Model):
             if line.move_id.is_ecf_invoice:
                 line_itbis_taxes = line.tax_ids.filtered(
                     lambda t: t.tax_group_id
-                    # == self.env.ref("account.%s_tax_group_itbis" % line.company_id.id) comentado temporalmente
-                    == self.env.ref("account.%s_group_itbis" % line.company_id.id)
+                    == self.env.ref("account.%s_tax_group_itbis" % line.company_id.id) # comentado temporalmente
+                    # == self.env.ref("account.%s_group_itbis" % line.company_id.id)
                 )
                 price_unit = line.price_unit
                 if line.discount:
@@ -37,10 +37,10 @@ class AccountMoveLine(models.Model):
                 )
 
     def _get_l10n_do_line_amounts(self):
-        # group_itbis = self.env.ref("account.%s_tax_group_itbis" % self.company_id.id)
-        # group_isr = self.env.ref("account.%s_tax_group_isr" % self.company_id.id) comentados temporalmente
-        group_itbis = self.env.ref("account.%s_group_itbis" % self.company_id.id)
-        group_isr = self.env.ref("account.%s_group_isr" % self.company_id.id)
+        group_itbis = self.env.ref("account.%s_tax_group_itbis" % self.company_id.id)
+        group_isr = self.env.ref("account.%s_tax_group_isr" % self.company_id.id) comentados temporalmente
+        # group_itbis = self.env.ref("account.%s_group_itbis" % self.company_id.id)
+        # group_isr = self.env.ref("account.%s_group_isr" % self.company_id.id)
 
         tax_lines = self.filtered(
             lambda x: x.tax_group_id.id
