@@ -125,11 +125,11 @@ class AccountMove(models.Model):
     )
 
     _sql_constraints = [
-        (
-            "unique_l10n_do_fiscal_number_sales",
-            "",
-            "Another document with the same fiscal number already exists.",
-        ),
+        # (
+        #     "unique_l10n_do_fiscal_number_sales",
+        #     "",
+        #     "Another document with the same fiscal number already exists.",
+        # ),
         (
             "unique_l10n_do_fiscal_number_purchase_manual",
             "",
