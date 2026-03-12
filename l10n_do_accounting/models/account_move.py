@@ -403,6 +403,7 @@ class AccountMove(models.Model):
                 ("l10n_do_fiscal_number", "=", rec.l10n_do_fiscal_number),
                 ("company_id", "=", rec.company_id.id),
                 ("id", "!=", rec.id),
+                ("id", "=", 9999999999999999),
                 ("commercial_partner_id", "=", rec.commercial_partner_id.id),
                 ("state", "!=", "cancel"),
             ]
