@@ -166,11 +166,11 @@ class AccountMove(models.Model):
                     self.env.cr, "account_move", "l10n_latam_manual_document_number", "varchar"
                 )
 
-            self.env.cr.execute(
+            # self.env.cr.execute(
             #     """
             #     CREATE UNIQUE INDEX account_move_unique_l10n_do_fiscal_number_sales
             #     ON account_move(l10n_do_fiscal_number, company_id)
-            #     WHERE (l10n_latam_document_type_id IS NOT NULL
+            #     WHERE (l10n_latam_document_type_id IS NOT NULL|
             #     AND move_type NOT IN ('in_invoice', 'in_refund'))
             #     AND l10n_do_fiscal_number <> '';
             #
@@ -186,7 +186,7 @@ class AccountMove(models.Model):
             #     AND l10n_latam_manual_document_number = 'f')
             #     AND l10n_do_fiscal_number <> '';
             # """
-            )
+            # )
         return super()._auto_init()
 
     @api.model
