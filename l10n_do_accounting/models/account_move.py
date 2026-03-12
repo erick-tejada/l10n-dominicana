@@ -142,29 +142,29 @@ class AccountMove(models.Model):
         ),
     ]
 
-    def _auto_init(self):
-        if not index_exists(
-            self.env.cr, "account_move_unique_l10n_do_fiscal_number_sales"
-        ):
-            drop_index(
-                self.env.cr,
-                "account_move_unique_l10n_do_fiscal_number_purchase_manual",
-                self._table,
-            )
-            drop_index(
-                self.env.cr,
-                "account_move_unique_l10n_do_fiscal_number_purchase_internal",
-                self._table,
-            )
-
-            if not column_exists(self.env.cr, "account_move", "l10n_do_fiscal_number"):
-                create_column(
-                    self.env.cr, "account_move", "l10n_do_fiscal_number", "varchar"
-                )
-            if not column_exists(self.env.cr, "account_move", "l10n_latam_manual_document_number"):
-                create_column(
-                    self.env.cr, "account_move", "l10n_latam_manual_document_number", "varchar"
-                )
+    # def _auto_init(self):
+    #     if not index_exists(
+    #         self.env.cr, "account_move_unique_l10n_do_fiscal_number_sales"
+    #     ):
+    #         drop_index(
+    #             self.env.cr,
+    #             "account_move_unique_l10n_do_fiscal_number_purchase_manual",
+    #             self._table,
+    #         )
+    #         drop_index(
+    #             self.env.cr,
+    #             "account_move_unique_l10n_do_fiscal_number_purchase_internal",
+    #             self._table,
+    #         )
+    #
+    #         if not column_exists(self.env.cr, "account_move", "l10n_do_fiscal_number"):
+    #             create_column(
+    #                 self.env.cr, "account_move", "l10n_do_fiscal_number", "varchar"
+    #             )
+    #         if not column_exists(self.env.cr, "account_move", "l10n_latam_manual_document_number"):
+    #             create_column(
+    #                 self.env.cr, "account_move", "l10n_latam_manual_document_number", "varchar"
+    #             )
 
             # Lo comento
             # self.env.cr.execute(
@@ -189,7 +189,7 @@ class AccountMove(models.Model):
             # """
             # )
 
-        return super()._auto_init()
+        # return super()._auto_init()
 
     @api.model
     def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
