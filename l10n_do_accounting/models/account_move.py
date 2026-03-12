@@ -130,16 +130,16 @@ class AccountMove(models.Model):
         #     "",
         #     "Another document with the same fiscal number already exists.",
         # ),
-        (
-            "unique_l10n_do_fiscal_number_purchase_manual",
-            "",
-            "Another document for the same partner with the same fiscal number already exists.",
-        ),
-        (
-            "unique_l10n_do_fiscal_number_purchase_internal",
-            "",
-            "Another document for the same partner with the same fiscal number already exists.",
-        ),
+        # (
+        #     "unique_l10n_do_fiscal_number_purchase_manual",
+        #     "",
+        #     "Another document for the same partner with the same fiscal number already exists.",
+        # ),
+        # (
+        #     "unique_l10n_do_fiscal_number_purchase_internal",
+        #     "",
+        #     "Another document for the same partner with the same fiscal number already exists.",
+        # ),
     ]
 
     # def _auto_init(self):
