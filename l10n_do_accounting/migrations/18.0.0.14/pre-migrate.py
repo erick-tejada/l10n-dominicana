@@ -13,36 +13,43 @@ def migrate(cr, version):
 
     companies = env["res.company"].search([])
 
+    tax_groups = [
+        ("itbis", "tax_group_itbis"),
+        ("isr", "tax_group_isr"),
+    ]
+
     for company in companies:
 
-        itbis_groups = TaxGroup.search([
-            ("name", "ilike", "itbis"),
-            ("company_id", "=", company.id),
-        ])
+        for search_name, xml_suffix in tax_groups:
 
-        for group in itbis_groups:
+            groups = TaxGroup.search([
+                ("name", "ilike", search_name),
+                ("company_id", "=", company.id),
+            ], limit=1)
 
-            new_xmlid = "%s_tax_group_itbis" % company.id
+            for group in groups:
 
-            existing = IrModelData.search([
-                ("module", "=", "account"),
-                ("name", "=", new_xmlid),
-            ])
+                new_xmlid = "%s_%s" % (company.id, xml_suffix)
 
-            if existing:
-                _logger.info("XMLID ya existe: %s", new_xmlid)
-                continue
+                existing = IrModelData.search([
+                    ("module", "=", "account"),
+                    ("name", "=", new_xmlid),
+                ], limit=1)
 
-            IrModelData.create({
-                "module": "account",
-                "name": new_xmlid,
-                "model": "account.tax.group",
-                "res_id": group.id,
-                "noupdate": True,
-            })
+                if existing:
+                    _logger.info("XMLID ya existe: %s", new_xmlid)
+                    continue
 
-            _logger.info(
-                "Creado XMLID %s para tax group %s",
-                new_xmlid,
-                group.name,
-            )
+                IrModelData.create({
+                    "module": "account",
+                    "name": new_xmlid,
+                    "model": "account.tax.group",
+                    "res_id": group.id,
+                    "noupdate": True,
+                })
+
+                _logger.info(
+                    "Creado XMLID %s para tax group %s",
+                    new_xmlid,
+                    group.name,
+                )
