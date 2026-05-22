@@ -15,6 +15,11 @@ class ResCompany(models.Model):
         "to have sales through offline mobile devices such as "
         "sales with Handheld, enter others.",
     )
+    l10n_do_disable_payer_type_autocompute = fields.Boolean(
+        "Manual Taxpayer Type",
+        help="When enabled, the taxpayer type of Dominican partners will not be "
+        "computed automatically. Users must set it manually.",
+    )
 
     def _localization_use_documents(self):
         """Dominican localization uses documents"""

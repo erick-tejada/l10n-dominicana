@@ -97,10 +97,13 @@ class Partner(models.Model):
 
         return res
 
-    @api.depends("vat", "country_id", "name")
+    @api.depends("vat", "country_id", "name", "company_id.l10n_do_disable_payer_type_autocompute")
     def _compute_l10n_do_dgii_payer_type(self):
         """Compute the type of partner depending on soft decisions"""
         for partner in self:
+            company = partner.company_id or self.env.company
+            if company.l10n_do_disable_payer_type_autocompute:
+                continue
             vat = partner.vat or partner.name or ""
             vat_len = len(vat) if vat else 0
             upper_name = partner.name.upper() if partner.name else ""
