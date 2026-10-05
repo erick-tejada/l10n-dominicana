@@ -187,9 +187,9 @@
         <t t-set="total_amount_taxed" t-value="l10n_do_amounts['itbis_18_base_amount'] + l10n_do_amounts['itbis_16_base_amount'] + l10n_do_amounts['itbis_0_base_amount']"/>
         <t t-set="total_exempt_amount" t-value="l10n_do_amounts['exempt_amount']"/>
 
-        <tr class="border-black o_total" t-if="ecf_representation">
-            <td>Monto Gravado</td>
-            <td class="text-end o_price_total">
+        <tr class="border-black o_total" t-if="ecf_representation" style="color: white;">
+            <td style="color: white;">Monto Gravado</td>
+            <td class="text-end o_price_total" style="color: white;">
                 <!-- MontoGravadoTotal consiste en la suma de la base imponible de todas las lineas gravadas con ITBIS -->
                 <span class="text-nowrap"
                       t-options='{"widget": "monetary", "display_currency": o.currency_id}'
@@ -207,13 +207,13 @@
         </tr>
 
         <!-- Total = subtotal + impuestos + retenciones -->
-        <tr class="border-black o_total">
-            <td>
+        <tr class="border-black o_total" style="color: white;">
+            <td style="color: white;">
                 <strong>Total</strong>
             </td>
 
             <t t-set="l10n_do_amount_total" t-value="l10n_do_amounts['l10n_do_invoice_total']"/>
-            <td class="text-end">
+            <td class="text-end" style="color: white;">
                 <span class="text-nowrap" t-out="l10n_do_amount_total"
                       t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
             </td>
